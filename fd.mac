@@ -1,0 +1,44 @@
+|yafm.mac 
+|
+|Yet Another Forage Macro
+|
+|Ini File: yafm.ini
+|
+| 0 = destroy
+| 1 = keep
+|
+|New foraged items are added to the ini file automatically and are kept by default.
+
+
+||||||||||||||||||||
+| Main
+||||||||||||||||||||
+sub Main 
+
+   /cleanup 
+   /echo doin it
+   | Verify that we have the ability to feign.
+   /if (${Me.Skill[Feign Death]}==0) {
+      /echo You cannot feign, silly person!
+      /goto :Exit
+   }
+   /echo gettin there
+   :Forage 
+   | Stand up.  Can't feign while sitting.
+   /if (${Me.State.NotEqual[STAND]}) { 
+      /echo not standin
+      /stand 
+      /delay 5 
+   } 
+
+   /delay 1s 
+   /echo here
+   /if (${Me.AbilityReady[Feign Death]}) {
+      /echo Attempting feign
+      /doability "Feign Death" 
+   }
+
+   /goto :Forage 
+
+:Exit
+/return 
